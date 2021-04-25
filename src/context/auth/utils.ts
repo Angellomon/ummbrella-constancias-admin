@@ -99,9 +99,8 @@ export const login = async (username: string, password: string) => {
       return false;
     }
 
-    console.log(res.data);
-
     const data = tokenSchema.parse(res.data);
+    console.log(data);
 
     const decoded: TokenData | null = jwt_decode(data.access_token) as any;
 
