@@ -1,10 +1,20 @@
 import React, { FC, useState } from "react";
-import { Button, Divider, Form, Input, Popconfirm, Space, Table } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  Popconfirm,
+  Space,
+  Table,
+  Tooltip,
+} from "antd";
 import { useAsistentes, useAsistentesOps } from "../../hooks/asistentes";
 import {
   DeleteOutlined,
   PlusOutlined,
   ReloadOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { ModalFormAsistente } from "../modals";
 import { useModalForm, useFormTable } from "sunflower-antd";
@@ -92,12 +102,20 @@ const TablaAsistentes: FC = () => {
               setCorreo(undefined);
               setFolio(undefined);
             }}
+            shape="round"
             icon={<ReloadOutlined />}
-          ></Button>
+          >
+            Reset
+          </Button>
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            icon={<SearchOutlined />}
+            shape="round"
+            type="primary"
+            htmlType="submit"
+          >
             Buscar
           </Button>
         </Form.Item>
