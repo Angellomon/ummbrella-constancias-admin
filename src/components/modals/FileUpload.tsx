@@ -7,7 +7,9 @@ import XLSX from "xlsx";
 import { AsistenteCreate, asistenteCreate } from "../../schemas/asistente";
 import { CloseOutlined } from "@ant-design/icons";
 
-interface Props extends ModalProps {}
+interface Props extends ModalProps {
+  onAsistentesSubmit?: (asistentes: AsistenteCreate[]) => void | Promise<void>;
+}
 
 const { Column } = Table;
 
@@ -39,7 +41,10 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const FileUploadForm: FC<Props> = ({ ...modalProps }) => {
+const FileUploadForm: FC<Props> = ({
+  onAsistentesSubmit = () => {},
+  ...modalProps
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [asistentes, setAsistentes] = useState<AsistenteCreate[]>([]);
 
@@ -107,12 +112,19 @@ const FileUploadForm: FC<Props> = ({ ...modalProps }) => {
     setAsistentes([]);
     setFiles([]);
   };
+
+  const handleOk = () => {
+    onAsistentesSubmit(asistentes);
+    modalProps.close && modalProps.close();
+  };
+
   return (
     <Modal
       title="Subir Base de Datos"
-      {...modalProps}
       onCancel={modalProps.close}
       width="70%"
+      onOk={handleOk}
+      {...modalProps}
     >
       <div {...getRootProps({ style: style as any })}>
         <input {...getInputProps()} />

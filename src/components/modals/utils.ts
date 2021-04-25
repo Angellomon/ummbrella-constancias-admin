@@ -13,9 +13,9 @@ export const tailLayout = {
 
 export type ModalProps = {
   onOk?: () => void;
-  visible: boolean;
+  visible?: boolean;
   onCancel?: () => void;
-  close: () => void;
+  close?: () => void;
 };
 
 export type FormProps =

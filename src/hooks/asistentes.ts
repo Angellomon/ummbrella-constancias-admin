@@ -3,7 +3,7 @@ import { Store } from "rc-field-form/lib/interface";
 import { useContext, useState } from "react";
 import { mutate } from "swr";
 import { AsistentesContext } from "../context/asistentes";
-import { Asistente, asistente } from "../schemas/asistente";
+import { Asistente, asistente, AsistenteCreate } from "../schemas/asistente";
 import { API_URL } from "../util/constants";
 import { doDelete, doPatch, doPost } from "../util/fetchers";
 import { useAuth } from "./auth";
@@ -29,6 +29,31 @@ export const useAsistentesOps = () => {
       );
     } catch (error) {
       message.error("Error al procesar la petición");
+      console.log(error);
+    } finally {
+      setIsOperating(false);
+    }
+  };
+
+  const addMany = async (asistentes: AsistenteCreate[]) => {
+    try {
+      setIsOperating(true);
+      const res = await doPost(
+        `${URL}/many`,
+        {
+          asistentes_data: asistentes,
+        },
+        token
+      );
+
+      const nuevosAsistentes = asistente.array().parse(res);
+
+      await mutate(
+        [`${API_URL}/asistentes`, token, "asistentes"],
+        nuevosAsistentes
+      );
+    } catch (error) {
+      message.error("Error al procesar la peticion");
       console.log(error);
     } finally {
       setIsOperating(false);
@@ -84,5 +109,6 @@ export const useAsistentesOps = () => {
     update,
     add,
     remove,
+    addMany,
   };
 };
