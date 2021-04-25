@@ -65,7 +65,7 @@ export const doGet = async (
         "validation error",
         error.message,
         "validation_error",
-        error.errors
+        error.issues
       );
     }
   }
