@@ -59,11 +59,15 @@ const StyledLayout = styled(Layout)`
 `;
 
 interface Props {
-  collapsed: boolean;
-  onCollapse: () => void;
+  collapsed?: boolean;
+  onCollapse?: () => void;
 }
 
-const ContentLayout: FC<Props> = ({ children, collapsed, onCollapse }) => {
+const ContentLayout: FC<Props> = ({
+  children,
+  collapsed = false,
+  onCollapse,
+}) => {
   return (
     <StyledLayout collapsed={collapsed}>
       <StyledHeader></StyledHeader>
