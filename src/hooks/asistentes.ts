@@ -35,13 +35,17 @@ export const useAsistentesOps = () => {
     }
   };
 
-  const addMany = async (asistentes: AsistenteCreate[]) => {
+  const addMany = async (
+    asistentes: AsistenteCreate[],
+    cuentaInicial: number = 0
+  ) => {
     try {
       setIsOperating(true);
       const res = await doPost(
         `${URL}/many`,
         {
-          asistentes_data: asistentes,
+          asistentes,
+          cuenta_inicial: cuentaInicial,
         },
         token
       );

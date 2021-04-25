@@ -1,4 +1,13 @@
-import { Button, Divider, Modal, Table } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  InputNumber,
+  Modal,
+  Space,
+  Table,
+  Tooltip,
+} from "antd";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { ModalProps } from "./utils";
 import { useDropzone } from "react-dropzone";
@@ -8,7 +17,10 @@ import { AsistenteCreate, asistenteCreate } from "../../schemas/asistente";
 import { CloseOutlined } from "@ant-design/icons";
 
 interface Props extends ModalProps {
-  onAsistentesSubmit?: (asistentes: AsistenteCreate[]) => void | Promise<void>;
+  onAsistentesSubmit?: (
+    asistentes: AsistenteCreate[],
+    cuentaInicial?: number
+  ) => void | Promise<void>;
 }
 
 const { Column } = Table;
@@ -46,6 +58,7 @@ const FileUploadForm: FC<Props> = ({
   ...modalProps
 }) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [cuentaInicial, setCuentaInicial] = useState(0);
   const [asistentes, setAsistentes] = useState<AsistenteCreate[]>([]);
 
   const [binatryStr, setBinaryStr] = useState<string>();
@@ -114,7 +127,7 @@ const FileUploadForm: FC<Props> = ({
   };
 
   const handleOk = () => {
-    onAsistentesSubmit(asistentes);
+    onAsistentesSubmit(asistentes, cuentaInicial);
     modalProps.close && modalProps.close();
   };
 
@@ -139,14 +152,24 @@ const FileUploadForm: FC<Props> = ({
           </ul>
         </aside>
       </div>
-      <Button
-        onClick={handleFileRemove}
-        style={{ marginTop: 15 }}
-        icon={<CloseOutlined />}
-        danger
-      >
-        Quitar Archivo
-      </Button>
+      <Space>
+        <Button
+          onClick={handleFileRemove}
+          style={{ marginTop: 15 }}
+          icon={<CloseOutlined />}
+          danger
+        >
+          Quitar Archivo
+        </Button>
+        <Tooltip title="Cuenta inicial">
+          <InputNumber
+            onChange={(value) => setCuentaInicial(value)}
+            value={cuentaInicial}
+            placeholder="Cuenta inicial"
+            defaultValue={0}
+          />
+        </Tooltip>
+      </Space>
       <Divider orientation="left">Vista Previa</Divider>
       {asistentes && (
         <Table dataSource={asistentes}>
