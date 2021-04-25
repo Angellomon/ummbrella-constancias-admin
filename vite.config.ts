@@ -11,12 +11,13 @@ export default defineConfig({
       },
     },
   },
-  server: {
-    proxy: {
-      "/oauth/token": {
-        target: "http://localhost:5000/api/v1",
-        changeOrigin: true,
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     "/oauth/token": {
+  //       // target: "http://localhost:5000/api/v1",
+  //       target: "https://naequina-constancias.herokuapp.com/api/v1/api/v1",
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 });

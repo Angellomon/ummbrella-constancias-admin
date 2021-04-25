@@ -79,7 +79,7 @@ export const login = async (username: string, password: string) => {
   let success = false;
   try {
     const res = await axios.post(
-      `/oauth/token`,
+      `${API_URL}/oauth/token`,
       stringify({
         grant_type: "password",
         username,
@@ -99,6 +99,8 @@ export const login = async (username: string, password: string) => {
       return false;
     }
 
+    console.log(res.data);
+
     const data = tokenSchema.parse(res.data);
 
     const decoded: TokenData | null = jwt_decode(data.access_token) as any;
@@ -114,7 +116,7 @@ export const login = async (username: string, password: string) => {
     success = true;
   } catch (error) {
     message.error("Nombre de usuario y/o contraseña incorrectos");
-    console.log(error);
+    console.log(error.errors);
     success = false;
   } finally {
     return success;
