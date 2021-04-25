@@ -15,6 +15,7 @@ export const asistenteCreate = object({
   segundo_nombre: string().optional(),
   apellido_p: string(),
   apellido_m: string(),
-  folio: string(),
+  folio: string().optional(),
   correo: string().email(),
 });
+export type AsistenteCreate = TypeOf<typeof asistenteCreate>;

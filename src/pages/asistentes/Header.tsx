@@ -1,9 +1,14 @@
 import React, { FC } from "react";
 import { Breadcrumb, Button, PageHeader, Space } from "antd";
+import { ModalFileUpload } from "../../components/modals";
+import { useModal, useModalForm } from "sunflower-antd";
 
 interface Props {}
 
 const HeaderAsistentes: FC<Props> = () => {
+  const { close, show, visible } = useModal({
+    defaultVisible: false,
+  });
   return (
     <PageHeader
       title="Lista de Asistentes"
@@ -14,12 +19,14 @@ const HeaderAsistentes: FC<Props> = () => {
       )}
       extra={
         <Space>
-          <Button type="primary" shape="round">
+          <Button onClick={show} type="primary" shape="round">
             Cargar CSV
           </Button>
         </Space>
       }
-    ></PageHeader>
+    >
+      <ModalFileUpload close={close} visible={visible} />
+    </PageHeader>
   );
 };
 
