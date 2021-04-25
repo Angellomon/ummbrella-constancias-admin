@@ -99,6 +99,11 @@ export const login = async (username: string, password: string) => {
       return false;
     }
 
+    console.log(
+      "res",
+      tokenSchema.parse({ access_token: "asd", token_type: "dsa" })
+    );
+
     const data = tokenSchema.parse(res.data);
     console.log(data);
 
@@ -114,8 +119,10 @@ export const login = async (username: string, password: string) => {
 
     success = true;
   } catch (error) {
+    console.log(typeof error);
+
     message.error("Nombre de usuario y/o contraseña incorrectos");
-    console.log(error.errors);
+    console.log(error);
     success = false;
   } finally {
     return success;
