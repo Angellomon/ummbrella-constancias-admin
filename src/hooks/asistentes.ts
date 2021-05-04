@@ -24,8 +24,8 @@ export const useAsistentesOps = () => {
 
       const nuevo = asistente.parse(res);
       await mutate(
-        [`${API_URL}/asistentes`, token, "asistentes"],
-        (asistentes: Asistente[]) => [nuevo, ...asistentes]
+        [`${URL}`, token, "asistentes"],
+        (asistentes: Asistente[]) => [...asistentes, nuevo]
       );
     } catch (error) {
       message.error("Error al procesar la petición");
@@ -52,10 +52,7 @@ export const useAsistentesOps = () => {
 
       const nuevosAsistentes = asistente.array().parse(res);
 
-      await mutate(
-        [`${API_URL}/asistentes`, token, "asistentes"],
-        nuevosAsistentes
-      );
+      await mutate([`${URL}`, token, "asistentes"], nuevosAsistentes);
     } catch (error) {
       message.error("Error al procesar la peticion");
       console.log(error);
@@ -73,13 +70,15 @@ export const useAsistentesOps = () => {
       const nuevo = asistente.parse(res);
 
       await mutate(
-        [`${API_URL}/asistentes`, token, "asistentes"],
+        [`${URL}`, token, "asistentes"],
         (asistentes: Asistente[]) => {
           const i = asistentes.findIndex((a) => a.folio === folio);
 
-          asistentes.splice(i, 1, nuevo);
+          const viejo = asistentes.splice(i, 1, nuevo);
 
-          return asistentes;
+          console.log(viejo, nuevo);
+
+          return [...asistentes];
         },
         true
       );
@@ -96,9 +95,8 @@ export const useAsistentesOps = () => {
       setIsOperating(true);
 
       await doDelete(`${URL}/${folio}`, token);
-      await mutate(
-        [`${API_URL}/asistentes`, token, "asistentes"],
-        (asistentes: Asistente[]) => asistentes.filter((a) => a.folio !== folio)
+      await mutate([`${URL}`, token, "asistentes"], (asistentes: Asistente[]) =>
+        asistentes.filter((a) => a.folio !== folio)
       );
     } catch (error) {
       message.error("Error al procesar la petición");
