@@ -1,4 +1,4 @@
-import { string, object, TypeOf } from "zod";
+import { string, object, TypeOf, boolean } from "zod";
 
 export const asistente = object({
   primer_nombre: string(),
@@ -7,6 +7,7 @@ export const asistente = object({
   apellido_m: string(),
   folio: string(),
   correo: string().email(),
+  ya_descargo: boolean().default(false),
 });
 export type Asistente = TypeOf<typeof asistente>;
 

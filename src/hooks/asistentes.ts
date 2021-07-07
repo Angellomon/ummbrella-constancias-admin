@@ -4,11 +4,11 @@ import { useContext, useState } from "react";
 import { mutate } from "swr";
 import { AsistentesContext } from "../context/asistentes";
 import { Asistente, asistente, AsistenteCreate } from "../schemas/asistente";
-import { API_URL } from "../util/constants";
+import { API_URL, ASISTENTES_URL } from "../util/constants";
 import { doDelete, doPatch, doPost } from "../util/fetchers";
 import { useAuth } from "./auth";
 
-const URL = `${API_URL}/asistentes`;
+const URL = `${ASISTENTES_URL}`;
 
 export const useAsistentes = () => useContext(AsistentesContext);
 

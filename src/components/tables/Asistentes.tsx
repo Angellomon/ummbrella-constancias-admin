@@ -11,7 +11,9 @@ import {
 } from "antd";
 import { useAsistentes, useAsistentesOps } from "../../hooks/asistentes";
 import {
+  CheckCircleOutlined,
   DeleteOutlined,
+  MinusCircleOutlined,
   PlusOutlined,
   ReloadOutlined,
   SearchOutlined,
@@ -155,6 +157,18 @@ const TablaAsistentes: FC = () => {
           key="apellido_m"
         />
         <Column dataIndex="correo" title="Correo" key="correo" />
+        <Column
+          dataIndex="ya_descargo"
+          title="Ya descargó?"
+          key="ya_descargo"
+          render={(value) =>
+            value ? (
+              <CheckCircleOutlined style={{ color: "green" }} />
+            ) : (
+              <MinusCircleOutlined style={{ color: "orangered" }} />
+            )
+          }
+        />
         <Column
           title="Operación"
           render={(_, record: Asistente) => (

@@ -3,8 +3,7 @@ import { ExportOutlined, UserOutlined } from "@ant-design/icons";
 
 import { Layout, Menu } from "antd";
 import { useMenu } from "../../hooks";
-import Logo from "../../assets/logo_naequina.png";
-import LogoChico from "../../assets/logo_naequina_peq.png";
+import Logo from "../../assets/logo-comecarne.png";
 import styled from "styled-components";
 import { useAuth } from "../../hooks/auth";
 const { Sider } = Layout;
@@ -28,7 +27,7 @@ const SiderPrincipal: FC = () => {
     <StlyedSider collapsible collapsed={isCollapsed} onCollapse={toggle}>
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-        <StyledLogo alt="logo" src={isCollapsed ? LogoChico : Logo} />
+        <StyledLogo alt="logo" src={Logo} />
         <Menu.Item key="1" icon={<UserOutlined />}>
           Asistentes
         </Menu.Item>
