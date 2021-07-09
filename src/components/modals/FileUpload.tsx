@@ -11,7 +11,6 @@ import {
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { ModalProps } from "./utils";
 import { useDropzone } from "react-dropzone";
-import axios from "axios";
 import XLSX from "xlsx";
 import { AsistenteCreate, asistenteCreate } from "../../schemas/asistente";
 import { CloseOutlined } from "@ant-design/icons";
@@ -111,9 +110,14 @@ const FileUploadForm: FC<Props> = ({
       const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
       let r = [];
       for (let row of rows) {
-        console.log(row);
+        try {
+          console.log(row);
 
-        r.push(asistenteCreate.parse(row));
+          r.push(asistenteCreate.parse(row));
+        } catch (error) {
+          console.log(error);
+          throw new Error("lmao");
+        }
       }
       setAsistentes(r);
     });

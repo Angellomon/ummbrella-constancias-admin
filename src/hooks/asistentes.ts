@@ -76,8 +76,6 @@ export const useAsistentesOps = () => {
 
           const viejo = asistentes.splice(i, 1, nuevo);
 
-          console.log(viejo, nuevo);
-
           return [...asistentes];
         },
         true

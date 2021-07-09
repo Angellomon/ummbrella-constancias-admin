@@ -16,7 +16,6 @@ const AsistentesProvider: FC = ({ children }) => {
   const { token } = useAuth();
 
   const { data: asistentes } = useSWR([URL, token, "asistentes"]);
-  console.log(URL);
 
   return (
     <AsistentesContext.Provider value={{ asistentes }}>
