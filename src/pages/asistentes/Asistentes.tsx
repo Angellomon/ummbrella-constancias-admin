@@ -1,5 +1,3 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Divider } from "antd";
 import React, { FC } from "react";
 import { Spinner } from "../../components/spinners";
 import { TablaAsistentes } from "../../components/tables";
