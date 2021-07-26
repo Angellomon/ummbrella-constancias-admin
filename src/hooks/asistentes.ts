@@ -4,15 +4,15 @@ import { useContext, useState } from "react";
 import { mutate } from "swr";
 import { AsistentesContext } from "../context/asistentes";
 import { Asistente, asistente, AsistenteCreate } from "../schemas/asistente";
-import { API_URL, ASISTENTES_URL } from "../util/constants";
+import { API_URL } from "../util/constants";
 import { doDelete, doPatch, doPost } from "../util/fetchers";
 import { useAuth } from "./auth";
 
-const URL = `${ASISTENTES_URL}`;
+const URL = `${API_URL}/eventos`;
 
 export const useAsistentes = () => useContext(AsistentesContext);
 
-export const useAsistentesOps = () => {
+export const useAsistentesOps = (claveEvento: string) => {
   const { token } = useAuth();
   const [isOperating, setIsOperating] = useState(false);
 
@@ -20,11 +20,15 @@ export const useAsistentesOps = () => {
     try {
       setIsOperating(true);
 
-      const res = await doPost(URL, asistenteData, token);
+      const res = await doPost(
+        `${URL}/${claveEvento}/asistentes`,
+        asistenteData,
+        token
+      );
 
       const nuevo = asistente.parse(res);
       await mutate(
-        [`${URL}`, token, "asistentes"],
+        [`${URL}/${claveEvento}/asistentes`, token],
         (asistentes: Asistente[]) => [...asistentes, nuevo]
       );
     } catch (error) {
@@ -42,7 +46,7 @@ export const useAsistentesOps = () => {
     try {
       setIsOperating(true);
       const res = await doPost(
-        `${URL}/many`,
+        `${URL}/${claveEvento}/asistentes/many`,
         {
           asistentes,
           cuenta_inicial: cuentaInicial,
@@ -52,7 +56,10 @@ export const useAsistentesOps = () => {
 
       const nuevosAsistentes = asistente.array().parse(res);
 
-      await mutate([`${URL}`, token, "asistentes"], nuevosAsistentes);
+      await mutate(
+        [`${URL}/${claveEvento}/asistentes`, token],
+        nuevosAsistentes
+      );
     } catch (error) {
       message.error("Error al procesar la peticion");
       console.log(error);
@@ -65,12 +72,16 @@ export const useAsistentesOps = () => {
     try {
       setIsOperating(true);
 
-      const res = await doPatch(`${URL}/${folio}`, asistenteData, token);
+      const res = await doPatch(
+        `${URL}/${claveEvento}/asistentes/${folio}`,
+        asistenteData,
+        token
+      );
 
       const nuevo = asistente.parse(res);
 
       await mutate(
-        [`${URL}`, token, "asistentes"],
+        [`${URL}/${claveEvento}/asistentes`, token],
         (asistentes: Asistente[]) => {
           const i = asistentes.findIndex((a) => a.folio === folio);
 
@@ -88,13 +99,18 @@ export const useAsistentesOps = () => {
     }
   };
 
-  const remove = async (folio: string) => {
+  const remove = async (claveAsistente: string) => {
     try {
       setIsOperating(true);
 
-      await doDelete(`${URL}/${folio}`, token);
-      await mutate([`${URL}`, token, "asistentes"], (asistentes: Asistente[]) =>
-        asistentes.filter((a) => a.folio !== folio)
+      await doDelete(
+        `${URL}/${claveEvento}/asistentes/${claveAsistente}`,
+        token
+      );
+      await mutate(
+        [`${URL}/${claveEvento}/asistentes`, token],
+        (asistentes: Asistente[]) =>
+          asistentes.filter((a) => a.clave !== claveAsistente)
       );
     } catch (error) {
       message.error("Error al procesar la petición");
