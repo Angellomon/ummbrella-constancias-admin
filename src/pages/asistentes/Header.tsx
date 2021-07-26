@@ -13,7 +13,7 @@ const HeaderAsistentes: FC<Props> = () => {
     defaultVisible: false,
   });
 
-  const { addMany, isOperating } = useAsistentesOps();
+  const { addMany, isOperating } = useAsistentesOps("");
 
   const handleAsistentesUpload = async (
     asistentes: AsistenteCreate[],
