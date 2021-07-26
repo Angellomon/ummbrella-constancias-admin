@@ -1,6 +1,7 @@
 import { string, object, TypeOf, boolean } from "zod";
 
 export const asistente = object({
+  clave: string(),
   primer_nombre: string(),
   segundo_nombre: string().nullable(),
   apellido_p: string(),
