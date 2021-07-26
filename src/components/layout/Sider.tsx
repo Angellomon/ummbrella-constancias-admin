@@ -3,7 +3,8 @@ import { ExportOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { useMenu } from "../../hooks";
-import Logo from "../../assets/logo-comecarne.png";
+import Logo from "../../assets/logo_naequina.png";
+import LogoChico from "../../assets/logo_naequina_peq.png";
 import styled from "styled-components";
 import { useAuth } from "../../hooks/auth";
 import { useEventos } from "../../hooks/eventos";
@@ -33,7 +34,7 @@ const SiderPrincipal: FC = () => {
     <StlyedSider collapsible collapsed={isCollapsed} onCollapse={toggle}>
       <div className="logo" />
       <Menu theme="dark" mode="inline">
-        <StyledLogo alt="logo" src={Logo} />
+        <StyledLogo alt="logo" src={isCollapsed ? LogoChico : Logo} />
         {eventos?.map((e) => (
           <Menu.Item
             key={e.clave}
