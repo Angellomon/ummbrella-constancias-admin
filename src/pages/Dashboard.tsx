@@ -10,6 +10,8 @@ import { Scope } from "../schemas/oauth";
 import { AsistentesPage } from "./asistentes";
 import { AsistentesProvider } from "../context/asistentes";
 import { default as DashboardLayout } from "../components/layout/Dashboard";
+import { PageEvento } from "./eventos";
+import EventoProvider from "../context/eventos/EventoContext";
 
 const Dashboard: FC = () => {
   return (
@@ -22,11 +24,17 @@ const Dashboard: FC = () => {
           }}
         >
           <DashboardLayout>
-            <ProtectedComponent scopes={[Scope.READ_ASISTENTES]}>
-              <AsistentesProvider>
-                <AsistentesPage />
-              </AsistentesProvider>
-            </ProtectedComponent>
+            <Route
+              path="/evento/:claveEvento"
+              exact
+              render={({ match }) => (
+                <ProtectedComponent scopes={[Scope.READ_ASISTENTES]}>
+                  <EventoProvider claveEvento={match.params.claveEvento}>
+                    <PageEvento />
+                  </EventoProvider>
+                </ProtectedComponent>
+              )}
+            />
           </DashboardLayout>
         </SWRConfig>
       </AuthProvider>
