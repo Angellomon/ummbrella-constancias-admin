@@ -9,7 +9,7 @@ import {
   Table,
   Tooltip,
 } from "antd";
-import { useAsistentes, useAsistentesOps } from "../../hooks/asistentes";
+import { useAsistentesOps } from "../../hooks/asistentes";
 import {
   CheckCircleOutlined,
   DeleteOutlined,
@@ -23,17 +23,18 @@ import { useModalForm, useFormTable } from "sunflower-antd";
 import { Asistente } from "../../schemas/asistente";
 import { Store } from "rc-field-form/lib/interface";
 import { Spinner } from "../spinners";
+import { useEvento } from "../../hooks/eventos";
 
 const { Column } = Table;
 
 const { useForm } = Form;
 
 const TablaAsistentes: FC = () => {
-  const [editingFolio, setEditingFolio] = useState<string>();
+  const [editingAsistente, setEditingAsistente] = useState<string>();
   const [folio, setFolio] = useState<string>();
   const [correo, setCorreo] = useState<string>();
-  const { asistentes } = useAsistentes();
-  const { update, add, remove } = useAsistentesOps();
+  const { asistentes, claveEvento } = useEvento();
+  const { update, add, remove } = useAsistentesOps(claveEvento);
 
   const [form] = useForm();
 
@@ -44,9 +45,9 @@ const TablaAsistentes: FC = () => {
     form: formAsistente,
   } = useModalForm({
     submit: async (values) => {
-      if (!editingFolio) return;
-      await update(editingFolio, values);
-      setEditingFolio(undefined);
+      if (!editingAsistente) return;
+      await update(editingAsistente, values);
+      setEditingAsistente(undefined);
     },
     defaultVisible: false,
     autoResetForm: true,
@@ -62,10 +63,10 @@ const TablaAsistentes: FC = () => {
     autoResetForm: true,
   });
 
-  const handleAsistenteEdit = (folio: string) => {
+  const handleAsistenteEdit = (claveAsistente: string) => {
     if (!asistentes) return;
-    setEditingFolio(folio);
-    const asistente = asistentes.find((a) => a.folio === folio);
+    setEditingAsistente(claveAsistente);
+    const asistente = asistentes.find((a) => a.clave === claveAsistente);
 
     formAsistente.setFieldsValue(asistente);
     showModalAsistente();
@@ -175,13 +176,13 @@ const TablaAsistentes: FC = () => {
             <Space>
               <Button
                 type="link"
-                onClick={() => handleAsistenteEdit(record.folio)}
+                onClick={() => handleAsistenteEdit(record.clave)}
               >
                 Editar
               </Button>
               <Popconfirm
                 title="Confirmar eliminación"
-                onConfirm={() => remove(record.folio)}
+                onConfirm={() => remove(record.clave)}
               >
                 <DeleteOutlined style={{ color: "#e0284a" }} />
               </Popconfirm>
