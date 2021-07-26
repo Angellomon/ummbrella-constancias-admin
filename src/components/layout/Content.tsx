@@ -72,7 +72,7 @@ const ContentLayout: FC<Props> = ({
     <StyledLayout collapsed={collapsed}>
       <StyledHeader></StyledHeader>
       {children}
-      <StyledFooter>NAEQUINA | Constancias</StyledFooter>
+      <StyledFooter>COMECARNE | Constancias</StyledFooter>
     </StyledLayout>
   );
 };
