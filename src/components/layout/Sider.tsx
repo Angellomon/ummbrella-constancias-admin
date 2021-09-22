@@ -3,7 +3,7 @@ import { ExportOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { useMenu } from "../../hooks";
-import Logo from "../../assets/logo-comecarne.png";
+import Logo from "../../assets/logo-conasa.png";
 import styled from "styled-components";
 import { useAuth } from "../../hooks/auth";
 import { useEventos } from "../../hooks/eventos";
