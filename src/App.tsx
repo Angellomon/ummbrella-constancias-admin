@@ -1,15 +1,15 @@
 import React from "react";
 import { MenuProvider } from "./context";
 import { DashboardPage } from "./pages";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <MenuProvider>
         <DashboardPage />
       </MenuProvider>
-    </Router>
+    </BrowserRouter>
   );
 }
 
