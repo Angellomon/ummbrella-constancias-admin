@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import { Layout } from "antd";
 import SiderPrincipal from "./Sider";
 import ContentPrincipal from "./Content";
 
-const DashboardLayout: FC = ({ children }) => {
+interface Props extends PropsWithChildren {}
+
+const DashboardLayout: FC<Props> = ({ children }) => {
   return (
     <Layout>
       <SiderPrincipal />
