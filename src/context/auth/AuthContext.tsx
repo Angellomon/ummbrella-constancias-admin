@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, PropsWithChildren } from "react";
 import jwt_decode from "jwt-decode";
-import { useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { isTokenExpired, getToken, removeTokens } from "./utils";
 import { Spinner } from "../../components/spinners/Spinner";
@@ -29,8 +29,12 @@ export const AuthContext = createContext<AuthI>({
   ensureLoggedIn: () => {},
 });
 
-export const AuthProvider: React.FC = ({ children }) => {
-  const history = useHistory();
+interface Props extends PropsWithChildren {}
+
+export const AuthProvider: React.FC<Props> = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [tokenData, setTokenData] = useState<TokenData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -46,7 +50,7 @@ export const AuthProvider: React.FC = ({ children }) => {
           setIsAuthenticated(false);
           setTokenData(null);
           removeTokens();
-          history.push("/login");
+          navigate("/login");
           return;
         }
         setToken(accessToken);
@@ -56,7 +60,7 @@ export const AuthProvider: React.FC = ({ children }) => {
           setIsAuthenticated(false);
           setTokenData(null);
           removeTokens();
-          history.push("/login");
+          navigate("/login");
           return;
         }
 
@@ -69,7 +73,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         setTokenData(null);
         setIsAuthenticated(false);
 
-        history.push("/login");
+        navigate("/login");
       } finally {
         setLoading(false);
       }
@@ -82,11 +86,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     removeTokens();
     setIsAuthenticated(false);
 
-    history.push("/login");
+    navigate("/login");
   };
 
+  if (location.pathname == "/login") return <>{children}</>;
+
   if (!isAuthenticated && !token && !loading) {
-    history.push("/login");
+    navigate("/login");
   }
   if (!token && loading) return <Spinner />;
 
