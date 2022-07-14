@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ZodError } from "zod";
 
 import { getToken } from "../context/auth";
@@ -80,11 +80,12 @@ export const doPost = async (url: string, data: any, accessToken: string) => {
     });
     return res.data;
   } catch (error) {
-    throw new FetchError(
-      "post error",
-      error.response.status,
-      error.response.data.detail
-    );
+    if (error instanceof AxiosError)
+      throw new FetchError(
+        "post error",
+        error?.response?.status,
+        error?.response?.data?.detail
+      );
   }
 };
 
@@ -97,11 +98,12 @@ export const doPatch = async (url: string, data: any, accessToken: string) => {
     });
     return res.data;
   } catch (error) {
-    throw new FetchError(
-      "patch error",
-      error.response.status,
-      error.response.data.detail
-    );
+    if (error instanceof AxiosError)
+      throw new FetchError(
+        "patch error",
+        error?.response?.status,
+        error?.response?.data?.detail
+      );
   }
 };
 
@@ -114,11 +116,12 @@ export const doDelete = async (url: string, accessToken: string) => {
     });
     return res.data;
   } catch (error) {
-    throw new FetchError(
-      "delete error",
-      error.response.status,
-      error.response.data.detail
-    );
+    if (error instanceof AxiosError)
+      throw new FetchError(
+        "delete error",
+        error?.response?.status,
+        error?.response?.data?.detail
+      );
   }
 };
 
@@ -136,7 +139,7 @@ export const getBytesArray = async (...args: any[]) => {
       message: "Error en servidor",
       description: `Reportar a sistemas de error [url=${args[0]}, method=GET]`,
     });
-    console.log(error?.request?.response);
+    if (error instanceof AxiosError) console.log(error?.request?.response);
     return null;
   }
 };
@@ -156,7 +159,7 @@ export const postBytesArray = async (...args: any[]) => {
       description: `Reportar a sistemas de error [url=${args[0]}, method=POST]`,
     });
     console.log(error);
-    console.log(error?.request?.response);
+    if (error instanceof AxiosError) console.log(error?.request?.response);
     return null;
   }
 };
