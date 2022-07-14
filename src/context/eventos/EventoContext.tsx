@@ -1,10 +1,11 @@
-import React, { createContext, FC, useState } from "react";
-import { useParams, useLocation } from "react-router";
+import React, { createContext, PropsWithChildren, useState } from "react";
+import type { FC } from "react";
+import { useParams } from "react-router";
 import useSWR from "swr";
 import { useAuth } from "../../hooks/auth";
 import { Asistente } from "../../schemas/asistente";
 import { Evento } from "../../schemas/eventos";
-import { API_URL, CLAVE_EMPRESA } from "../../util/constants";
+import { API_URL } from "../../util/constants";
 
 type EventoContextoType = {
   evento?: Evento;
@@ -22,11 +23,10 @@ export const EventoContext = createContext<EventoContextoType>({
 
 const URL = `${API_URL}/eventos`;
 
-interface Props {
-  claveEvento: string;
-}
+interface Props extends PropsWithChildren {}
 
-const EventoProvider: FC<Props> = ({ claveEvento, children }) => {
+const EventoProvider: FC<Props> = ({ children }) => {
+  const { claveEvento = "" } = useParams();
   const { token } = useAuth();
   const { data: evento } = useSWR<Evento>([`${URL}/${claveEvento}`, token]);
   const { data: asistentes } = useSWR<Asistente[]>([
