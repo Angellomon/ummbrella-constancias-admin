@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { ExportOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { useMenu } from "../../hooks";
 import Logo from "../../assets/logo-comecarne.png";
@@ -23,11 +23,13 @@ const StyledLogo = styled.img`
 `;
 
 const SiderPrincipal: FC = () => {
-  const { logout } = useAuth();
+  const { logout, isAuthenticated, tokenData } = useAuth();
   const { isCollapsed, toggle } = useMenu();
 
   const { eventos } = useEventos();
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  if (!tokenData || !isAuthenticated) return null;
 
   return (
     <StlyedSider collapsible collapsed={isCollapsed} onCollapse={toggle}>
@@ -37,7 +39,7 @@ const SiderPrincipal: FC = () => {
         {eventos?.map((e) => (
           <Menu.Item
             key={e.clave}
-            onClick={() => history.push(`/evento/${e.clave}`)}
+            onClick={() => navigate(`/evento/${e.clave}`)}
           >
             {e.nombre}
           </Menu.Item>
