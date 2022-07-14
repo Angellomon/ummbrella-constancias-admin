@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { message } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import FormLogin from "../components/forms/Login";
@@ -15,7 +15,7 @@ const FormContainer = styled.div`
 `;
 
 export const PageLogin: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,9 +30,9 @@ export const PageLogin: React.FC = () => {
       setIsLoading(true);
       const valid = await login(values.username, values.password);
       if (valid) {
-        history.push("/asistentes"); // * página de inicio
+        navigate("/asistentes"); // * página de inicio
       } else {
-        history.push("/login");
+        navigate("/login");
       }
     } catch (error) {
       message.error("Login incorrecto");
