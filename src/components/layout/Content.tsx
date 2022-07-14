@@ -1,6 +1,6 @@
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import styled, { css } from "styled-components";
 
 const { Header, Footer } = Layout;
@@ -58,7 +58,7 @@ const StyledLayout = styled(Layout)`
         `}
 `;
 
-interface Props {
+interface Props extends PropsWithChildren {
   collapsed?: boolean;
   onCollapse?: () => void;
 }
