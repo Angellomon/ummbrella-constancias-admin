@@ -1,5 +1,5 @@
 import { message } from "antd";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
 import { stringify } from "querystring";
 
@@ -55,7 +55,7 @@ export const refresh = async () => {
     // const accessToken = res.data.access_token;
     // localStorage.setItem(ACCESS_TOKEN, accessToken);
   } catch (error) {
-    console.log(error.request.response);
+    if (error instanceof AxiosError) console.log(error.request.response);
   }
 };
 
