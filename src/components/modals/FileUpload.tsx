@@ -11,7 +11,7 @@ import {
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { ModalProps } from "./utils";
 import { useDropzone } from "react-dropzone";
-import XLSX from "xlsx";
+import { read, utils } from "xlsx";
 import { AsistenteCreate, asistenteCreate } from "../../schemas/asistente";
 import { CloseOutlined } from "@ant-design/icons";
 
@@ -104,15 +104,13 @@ const FileUploadForm: FC<Props> = ({
   useEffect(() => {
     if (!binatryStr) return;
 
-    const workbook = XLSX.read(arr, { type: "array" });
+    const workbook = read(arr, { type: "array" });
 
     workbook.SheetNames.forEach((sheet) => {
-      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+      const rows = utils.sheet_to_json(workbook.Sheets[sheet]);
       let r = [];
       for (let row of rows) {
         try {
-          console.log(row);
-
           r.push(asistenteCreate.parse(row));
         } catch (error) {
           console.log(error);
