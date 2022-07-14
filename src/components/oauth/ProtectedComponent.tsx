@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, PropsWithChildren } from "react";
 
 import { useAuth } from "../../hooks/auth";
 import type { Scope } from "../../schemas/oauth";
 
-interface Props {
+interface Props extends PropsWithChildren {
   scopes: Scope[];
 }
 
