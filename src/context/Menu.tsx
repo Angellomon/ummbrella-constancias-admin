@@ -1,4 +1,4 @@
-import React, { createContext, FC, useState } from "react";
+import React, { createContext, FC, PropsWithChildren, useState } from "react";
 
 type MenuContextType = {
   isCollapsed?: boolean;
@@ -9,7 +9,9 @@ export const MenuContext = createContext<MenuContextType>({
   toggle: () => {},
 });
 
-const MenuProvider: FC = ({ children }) => {
+interface Props extends PropsWithChildren {}
+
+const MenuProvider: FC<Props> = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggle = () => {
